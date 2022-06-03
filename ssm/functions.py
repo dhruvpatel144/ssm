@@ -22,13 +22,13 @@ def first_state(pi, x, y,k):
 
 def hmm(A,B,pi,x,y,sample,outcome,l):
 
-  z1 = first_state(pi,x,y)
+  z1 = first_state(pi,x,y,k)
   sample = sample.at[0].set(z1)
-  outcome = outcome.at[0].set(out(z1,y[0]))
+  outcome = outcome.at[0].set(out(z1,y[0],p))
   z_i= z1
   for j in range(1,l):
-    z_i1=next_state(z_i,x[j])
+    z_i1=next_state(z_i,x[j],k)
     sample = sample.at[j].set(z_i1)
-    outcome = outcome.at[j].set(out(z_i1,y[j]))
+    outcome = outcome.at[j].set(out(z_i1,y[j],p))
     z_i=z_i1
   return sample, outcome
