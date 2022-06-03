@@ -20,7 +20,7 @@ def first_state(pi, x, y,k):
       z1=h 
   return z1
 
-def hmm(A,B,pi,x,y,sample,outcome,k,l):
+def hmm(A,B,pi,x,y,sample,outcome,p,k,l):
 
   z1 = first_state(pi,x,y,k)
   sample = sample.at[0].set(z1)
