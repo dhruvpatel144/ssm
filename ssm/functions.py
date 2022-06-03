@@ -24,7 +24,7 @@ def hmm(A,B,pi,x,y,sample,outcome,p,k,l):
 
   z1 = first_state(pi,x,k)
   sample = sample.at[0].set(z1)
-  outcome = outcome.at[0].set(out(z1,y[0],p))
+  outcome = outcome.at[0].set(out(B,z1,y[0],p))
   z_i= z1
   for j in range(1,l):
     z_i1=next_state(A,z_i,x[j],k)
