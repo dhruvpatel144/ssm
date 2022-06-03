@@ -1,18 +1,18 @@
-def next_state(t,x):
+def next_state(t,x,k):
   a=x
   for h in range(k):
     a-=A[h,t]
     if(a<0):
       return h
 
-def out(st,y):
+def out(st,y,p):
   a=y
   for u in range(p):
     a-=B[st,u]
     if(a<0):
       return u
 
-def first_state(pi, x, y):
+def first_state(pi, x, y,k):
   a= x[0]
   for h in range(k):
     a-=pi[h]
@@ -20,7 +20,7 @@ def first_state(pi, x, y):
       z1=h 
   return z1
 
-def hmm(A,B,pi,x,y,sample,outcome):
+def hmm(A,B,pi,x,y,sample,outcome,l):
 
   z1 = first_state(pi,x,y)
   sample = sample.at[0].set(z1)
