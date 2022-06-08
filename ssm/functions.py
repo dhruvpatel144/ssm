@@ -1,8 +1,4 @@
-try:
-    import jax
-except: 
-    pip install -qq jax
-    import jax
+import jax
     
 
 def next_state(A, t, x, k):
