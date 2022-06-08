@@ -1,3 +1,10 @@
+try:
+  import jax
+except:
+  %pip install -qq jax
+  import jax
+    
+
 def next_state(A, t, x, k):
     a = x
     for h in range(k):
