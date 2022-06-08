@@ -65,7 +65,7 @@ with open(os.path.join(full_path, "pyproject.toml"), "w") as f:
     f.write(f'write_to = "{PACKAGE_NAME}/_version.py"')
 
 # Initialize project folder
-os.makedirs(os.path.join(full_path , PACKAGE_NAME))
+os.makedirs(os.path.join(full_path, PACKAGE_NAME))
 with open(os.path.join(full_path, PACKAGE_NAME, "__init__.py"), "w") as f:
     f.write("from ._version import version as __version__  # noqa")
 
