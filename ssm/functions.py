@@ -1,7 +1,7 @@
 try:
     import jax
-except:
-    %pip install -qq jax
+except: 
+    pip install -qq jax
     import jax
     
 
