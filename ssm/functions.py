@@ -1,7 +1,7 @@
 def next_state(A, t, x, k):
     a = x
     for h in range(k):
-        a -= A[h, t]
+        a -= A[t, h]
         if a < 0:
             return h
 
@@ -23,8 +23,9 @@ def first_state(pi, x, k):
     return z1
 
 
-def hmm(A, B, pi, x, y, sample, outcome, p, k, l):
-
+def hmm(A, B, pi, x, y, p, k, l):
+    sample = jax.numpy.empty(l)
+    outcome = jax.numpy.empty(l)
     z1 = first_state(pi, x, k)
     sample = sample.at[0].set(z1)
     outcome = outcome.at[0].set(out(B, z1, y[0], p))
