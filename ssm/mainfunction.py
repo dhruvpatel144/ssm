@@ -38,7 +38,7 @@ class discreteHMM:
 
 
 class continuousHMM:
-    def state(t, key):
+    def state(self, t, key):
         key = jax.random.PRNGKey(key)
         while True:
 
@@ -50,7 +50,7 @@ class continuousHMM:
                 return x[0]
                 break
 
-    def out(st, key):
+    def out(self, st, key):
         key = jax.random.PRNGKey(key)
         while True:
             key, subkey = jax.random.split(key)
@@ -60,7 +60,7 @@ class continuousHMM:
                 return x[0]
                 break
 
-    def first_state():
+    def first_state(self):
         key = jax.random.PRNGKey(0)
 
         while True:
@@ -73,7 +73,7 @@ class continuousHMM:
                 break
         return z1
 
-    def hmm(l):
+    def hmm(self, l):
         beta = continuousHMM()
         sample = jax.numpy.empty(l)
         outcomes = jax.numpy.empty(l)
