@@ -1,5 +1,4 @@
-
-    
+import jax
 
 def next_state(A, t, x, k):
     a = x
