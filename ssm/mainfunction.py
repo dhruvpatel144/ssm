@@ -1,38 +1,46 @@
 class discreteHMM:
-    def next_state(self, A, t, x, k):
-        a = x
-        for h in range(k):
-            a -= A[t, h]
-            if a < 0:
-                return h
+    def next_state(self, A, current_state, xkey):
+        nextstate = int(
+            tfp.distributions.Categorical(
+                probs=A[current_state], name="Categorical"
+            ).sample(1, seed=xkey)
+        )
+        return nextstate
 
-    def outcome(self, B, st, y, p):
-        a = y
-        for u in range(p):
-            a -= B[st, u]
-            if a < 0:
-                return u
+    def outcome(self, B, current_state, ykey):
+        u = int(
+            tfp.distributions.Categorical(
+                probs=B[current_state], name="Categorical"
+            ).sample(1, seed=ykey)
+        )
+        return u
 
-    def first_state(self, pi, x, k):
-        a = x[0]
-        for h in range(k):
-            a -= pi[h]
-            if a < 0:
-                z1 = h
+    def first_state(self, pi, xkey):
+        z1 = int(
+            tfp.distributions.Categorical(probs=pi, name="Categorical").sample(
+                1, seed=xkey
+            )
+        )
         return z1
 
-    def hmm(self, A, B, pi, x, y, p, k, l):
-        sample = jax.numpy.empty(l)
-        outcomes = jax.numpy.empty(l)
+    def hmm(self, A, B, pi, length_of_chain):
+
+        xkey = jax.random.split(jax.random.PRNGKey(0), num=length_of_chain)
+        ykey = jax.random.split(jax.random.PRNGKey(1), num=length_of_chain)
+
+        sample = jax.numpy.empty(length_of_chain)
+        outcomes = jax.numpy.empty(length_of_chain)
+
         beta = discreteHMM()
-        z1 = beta.first_state(pi, x, k)
+        z1 = beta.first_state(pi, xkey[0])
+
         sample = sample.at[0].set(z1)
-        outcomes = outcomes.at[0].set(beta.outcome(B, z1, y[0], p))
+        outcomes = outcomes.at[0].set(beta.outcome(B, z1, ykey[0]))
         z_i = z1
-        for j in range(1, l):
-            z_i1 = beta.next_state(A, z_i, x[j], k)
+        for j in range(1, length_of_chain):
+            z_i1 = beta.next_state(A, z_i, xkey[j])
             sample = sample.at[j].set(z_i1)
-            outcomes = outcomes.at[j].set(beta.outcome(B, z_i1, y[j], p))
+            outcomes = outcomes.at[j].set(beta.outcome(B, z_i1, ykey[j]))
             z_i = z_i1
         return sample, outcomes
 
